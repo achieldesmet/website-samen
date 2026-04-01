@@ -13,10 +13,10 @@
 body.dark {
   --bg: #0f1b26;
   --panel: #182836;
-  --text: #ecf5fb;
-  --muted: #9eb5c6;
-  --line: #2c4558;
-  --blue: #2f88b2;
+  --text: #ffffff;
+  --muted: #a8b2d1;
+  --line: #3a4a5c;
+  --blue: #4a9eff;
   --blue-strong: #57a9d1;
   --green: #8dda60;
   --shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
@@ -164,6 +164,7 @@ body {
   font-size: 1.9rem;
   font-weight: 700;
   margin-bottom: 8px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
@@ -514,6 +515,7 @@ select:focus {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .flip-card-back p:first-child {

@@ -460,17 +460,18 @@ async function loadAirports() {
 
 async function loadAircrafts() {
   const defaults = [
-    { model: "Airbus A320neo", co2PerKm: 6.2, seats: 180, category: "small" },
-    { model: "Airbus A321neo", co2PerKm: 6.9, seats: 220, category: "small" },
-    { model: "Boeing 737-800", co2PerKm: 6.8, seats: 189, category: "small" },
-    { model: "Boeing 737 MAX 8", co2PerKm: 6.4, seats: 178, category: "small" },
-    { model: "Airbus A330-300", co2PerKm: 10.8, seats: 300, category: "wide" },
-    { model: "Airbus A350-900", co2PerKm: 9.9, seats: 325, category: "wide" },
-    { model: "Boeing 777-300ER", co2PerKm: 12.7, seats: 368, category: "wide" },
-    { model: "Boeing 787-9", co2PerKm: 10.2, seats: 290, category: "wide" },
-    { model: "Airbus A380-800", co2PerKm: 15.2, seats: 500, category: "jumbo" },
-    { model: "Boeing 747-8", co2PerKm: 16.1, seats: 467, category: "jumbo" },
-    { model: "Boeing 747-400", co2PerKm: 17.0, seats: 416, category: "jumbo" },
+    { model: "A320neo", fuelPerHour: 2448.7, co2PerHour: 7737.9, seats: 150, category: "small" },
+    { model: "A321neo", fuelPerHour: 2650.0, co2PerHour: 8374.0, seats: 180, category: "small" },
+    { model: "Boeing 737-800", fuelPerHour: 2539.6, co2PerHour: 8025.1, seats: 160, category: "small" },
+    { model: "Boeing 737 MAX 8", fuelPerHour: 2482.2, co2PerHour: 7843.8, seats: 178, category: "small" },
+    { model: "A320-200", fuelPerHour: 2664.4, co2PerHour: 8429.5, seats: 150, category: "small" },
+    { model: "A330-300", fuelPerHour: 6317.2, co2PerHour: 19962.4, seats: 300, category: "wide" },
+    { model: "A350-900", fuelPerHour: 5907.7, co2PerHour: 18668.3, seats: 315, category: "wide" },
+    { model: "Boeing 777-300ER", fuelPerHour: 8416.6, co2PerHour: 26596.5, seats: 378, category: "wide" },
+    { model: "Boeing 787-9", fuelPerHour: 5614.4, co2PerHour: 17741.5, seats: 290, category: "wide" },
+    { model: "A340-300", fuelPerHour: 6832.0, co2PerHour: 21589.1, seats: 335, category: "wide" },
+    { model: "A380-800", fuelPerHour: 13493.4, co2PerHour: 42639.1, seats: 555, category: "jumbo" },
+    { model: "Boeing 747-8i", fuelPerHour: 11631.7, co2PerHour: 36758.2, seats: 468, category: "jumbo" },
   ];
 
   const csv = await fetchText("excel bestanden/verbruik.csv");
@@ -548,19 +549,19 @@ function calculate() {
   const aircraft = findAircraft(aircraftInput.value);
   const category = inferCategoryFromModel(aircraftInput.value);
   const isAverageChoice = isAverageAircraftChoice(aircraftInput.value);
-  const co2PerKm = aircraft && !isAverageChoice ? aircraft.co2PerKm : averageByCategory(category);
+  const co2PerHour = aircraft && !isAverageChoice ? aircraft.co2PerHour : averageByCategory(category);
   const seats = aircraft && aircraft.seats && !isAverageChoice ? aircraft.seats : averageSeatsByCategory(category);
   const airline = findAirline(airlineInput.value);
   const age = airline ? airline.fleetAge : 0;
   const ageFactor = 1 + age * 0.0025;
 
   const km = haversineKm(dep.lat, dep.lon, arr.lat, arr.lon);
-  const totalAircraftCo2 = km * co2PerKm * ageFactor;
-  const perSeatCo2 = aircraft && aircraft.co2PerSeatKm ? km * aircraft.co2PerSeatKm * ageFactor : totalAircraftCo2 / seats;
+  const flightHours = km / 850 + 0.6;
+  const totalAircraftCo2 = flightHours * co2PerHour * ageFactor;
+  const perSeatCo2 = totalAircraftCo2 / seats;
   // Disclaimer: 1 boom capteert ongeveer 25 kg CO2 per jaar.
   const averageTrees = Math.ceil(perSeatCo2 / 25);
   const yearlyShare = (perSeatCo2 / BASELINE_ANNUAL_KG) * 100;
-  const flightHours = km / 850 + 0.6;
 
   distanceOut.textContent = km.toFixed(1);
   co2Out.textContent = perSeatCo2.toFixed(1);
@@ -630,10 +631,10 @@ function findAirline(inputValue) {
 function averageByCategory(category) {
   const inClass = aircrafts.filter((a) => (a.category || inferCategoryFromModel(a.model)) === category);
   if (!inClass.length) {
-    const allAvg = aircrafts.reduce((sum, a) => sum + a.co2PerKm, 0) / aircrafts.length;
-    return Number.isFinite(allAvg) ? allAvg : 10;
+    const allAvg = aircrafts.reduce((sum, a) => sum + a.co2PerHour, 0) / aircrafts.length;
+    return Number.isFinite(allAvg) ? allAvg : 5000;
   }
-  return inClass.reduce((sum, a) => sum + a.co2PerKm, 0) / inClass.length;
+  return inClass.reduce((sum, a) => sum + a.co2PerHour, 0) / inClass.length;
 }
 
 function averageSeatsByCategory(category) {
