@@ -41,6 +41,7 @@
               <label for="departureInput">Vertrekbestemming</label>
               <div class="typeahead-wrap">
                 <input id="departureInput" placeholder="Typ luchthaven of IATA-code..." required />
+                <button type="button" class="clear-btn" data-target="departureInput" aria-label="Clear departure">✕</button>
                 <div id="departureSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
@@ -48,6 +49,7 @@
               <label for="arrivalInput">Eindbestemming</label>
               <div class="typeahead-wrap">
                 <input id="arrivalInput" placeholder="Typ luchthaven of IATA-code..." required />
+                <button type="button" class="clear-btn" data-target="arrivalInput" aria-label="Clear arrival">✕</button>
                 <div id="arrivalSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
@@ -59,10 +61,13 @@
               <label for="airlineInput">Luchtvaartmaatschappij</label>
               <div class="typeahead-wrap">
                 <input id="airlineInput" placeholder="Zoek maatschappij..." required />
+                <button type="button" class="clear-btn" data-target="airlineInput" aria-label="Clear airline">✕</button>
                 <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
           </div>
+
+          <datalist id="airlineList"></datalist>
 
           <div class="actions">
             <button class="btn primary" type="submit">Bereken uitstoot</button>
@@ -94,7 +99,6 @@
           <div class="chart-wrap">
             <h3>Jaarlijks CO<sub>2</sub>-budget per persoon</h3>
             <canvas id="yearlyChart" aria-label="Jaarlijkse CO<sub>2</sub>-verbruik chart"></canvas>
-            <p class="chart-caption"><span id="yearlyShareOut">--</span> van je jaarlijks CO<sub>2</sub>-budget gebruikt</p>
           </div>
 
           <div class="result-spotlight">
@@ -102,6 +106,7 @@
                         <p class="mini-note"><strong>Route:</strong> <span id="routeOut">--</span></p>
             <p class="mini-note"><strong>Maatschappij:</strong> <span id="airlineOut">--</span></p>
             <p class="mini-note"><strong>Vliegtuigtype:</strong> <span id="aircraftOut">--</span></p>
+            <p id="averageNotice" class="mini-note average-notice" style="display: none; color: var(--orange); font-style: italic;">⚠️ Berekening met gemiddelde waarden - kies een specifiek toestel voor nauwkeurigere resultaten</p>
             <p class="mini-note"><strong>Afstand:</strong> <span id="distanceOut">--</span> km</p>
             <p class="mini-note"><strong>Vluchtduur (geschat):</strong> <span id="durationOut">--</span> uur</p>
             <p class="mini-note mini-formula">Formule: afstand / 850 km/u + 0.6 uur taxi/take-off/landing</p>
@@ -112,6 +117,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="script.js"></script>
