@@ -571,7 +571,7 @@ function calculate() {
   const flightHours = km / 850 + 0.6;
   const totalAircraftCo2 = flightHours * co2PerHour * ageFactor;
   const perSeatCo2 = totalAircraftCo2 / seats;
-  // Disclaimer: 1 boom capteert ongeveer 25 kg CO2 per jaar.
+  // Disclaimer: 1 boom capteert ongeveer 25 kg CO<sub>2</sub> per jaar.
   const averageTrees = Math.ceil(perSeatCo2 / 25);
   const yearlyShare = (perSeatCo2 / BASELINE_ANNUAL_KG) * 100;
 

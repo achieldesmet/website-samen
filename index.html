@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkyClear - CO2 Calculator</title>
+    <title>SkyClear - CO<sub>2</sub> Calculator</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -14,7 +14,7 @@
       </div>
 
       <nav class="top-tabs" aria-label="Tabbladen">
-        <a class="tab active" href="index.html">CO2 Calculator</a>
+        <a class="tab active" href="index.html">CO<sub>2</sub> Calculator</a>
         <a class="tab" href="onderzoek.html">Veroudering</a>
         <a class="tab" href="recyclage.html">Recyclage</a>
         <a class="tab" href="disclaimer.html">Disclaimer</a>
@@ -28,7 +28,7 @@
     <main class="main-wrap">
       <section class="hero-strip">
         <div class="hero-icon">✈️</div>
-        <h2>CO2 Calculator</h2>
+        <h2>CO<sub>2</sub> Calculator</h2>
         <p>Heldere lucht start bij eerlijke data.</p>
       </section>
 
@@ -58,13 +58,11 @@
             <div>
               <label for="airlineInput">Luchtvaartmaatschappij</label>
               <div class="typeahead-wrap">
-                <input id="airlineInput" list="airlineList" placeholder="Zoek maatschappij..." required />
+                <input id="airlineInput" placeholder="Zoek maatschappij..." required />
                 <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
           </div>
-
-          <datalist id="airlineList"></datalist>
 
           <div class="actions">
             <button class="btn primary" type="submit">Bereken uitstoot</button>
