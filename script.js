@@ -417,7 +417,6 @@ const routeOut = document.getElementById("routeOut");
 const airlineOut = document.getElementById("airlineOut");
 const aircraftOut = document.getElementById("aircraftOut");
 const durationOut = document.getElementById("durationOut");
-const sustainabilityBadge = document.getElementById("sustainabilityBadge");
 
 const airlineList = document.getElementById("airlineList");
 const themeToggle = document.getElementById("themeToggle");
@@ -427,9 +426,6 @@ let yearlyChart = null;
 init();
 
 async function init() {
-  restoreTheme();
-  if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
-
   airports = await loadAirports();
   topAirports = pickTopAirports(airports, 120);
   aircrafts = await loadAircrafts();
@@ -579,7 +575,6 @@ function calculate() {
   airlineOut.textContent = airline ? airline.name : airlineInput.value || "Onbekend";
   aircraftOut.textContent = aircraft ? aircraft.model : `Gemiddelde ${category}`;
   durationOut.textContent = flightHours.toFixed(1);
-  sustainabilityBadge.textContent = sustainabilityLabel(perSeatCo2);
 
   renderChart(yearlyShare);
   resultPanel.hidden = false;
@@ -664,12 +659,6 @@ function isAverageAircraftChoice(value) {
   return (value || "").toLowerCase().includes("gemiddelde");
 }
 
-function sustainabilityLabel(perSeatKg) {
-  if (perSeatKg < 200) return "🟢 Zeer duurzaam";
-  if (perSeatKg < 500) return "🟡 Gemiddelde impact";
-  if (perSeatKg < 900) return "🟠 Hoge impact";
-  return "🔴 Zeer hoge impact";
-}
 
 function bindAirlineTypeAhead() {
   if (!airlineInput || !airlineSuggestions) return;
@@ -919,12 +908,3 @@ function toRad(value) {
   return (value * Math.PI) / 180;
 }
 
-function restoreTheme() {
-  const saved = localStorage.getItem("skyclear-theme");
-  if (saved === "dark") document.body.classList.add("dark");
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
-}
