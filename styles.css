@@ -1212,6 +1212,10 @@ select:focus {
   font-weight: 700;
 }
 
+body.dark .about-card h3 {
+  color: #4a9eff;
+}
+
 .disclaimer-footer {
   margin-top: 40px;
   padding: 24px;

@@ -462,16 +462,16 @@ async function loadAircrafts() {
   const defaults = [
     { model: "A320neo", fuelPerHour: 2448.7, co2PerHour: 7737.9, seats: 150, category: "small" },
     { model: "A321neo", fuelPerHour: 2650.0, co2PerHour: 8374.0, seats: 180, category: "small" },
-    { model: "Boeing 737-800", fuelPerHour: 2539.6, co2PerHour: 8025.1, seats: 160, category: "small" },
+    { model: "Boeing 737NG", fuelPerHour: 2539.6, co2PerHour: 8025.1, seats: 160, category: "small" },
     { model: "Boeing 737 MAX 8", fuelPerHour: 2482.2, co2PerHour: 7843.8, seats: 178, category: "small" },
     { model: "A320-200", fuelPerHour: 2664.4, co2PerHour: 8429.5, seats: 150, category: "small" },
-    { model: "A330-300", fuelPerHour: 6317.2, co2PerHour: 19962.4, seats: 300, category: "wide" },
-    { model: "A350-900", fuelPerHour: 5907.7, co2PerHour: 18668.3, seats: 315, category: "wide" },
-    { model: "Boeing 777-300ER", fuelPerHour: 8416.6, co2PerHour: 26596.5, seats: 378, category: "wide" },
-    { model: "Boeing 787-9", fuelPerHour: 5614.4, co2PerHour: 17741.5, seats: 290, category: "wide" },
-    { model: "A340-300", fuelPerHour: 6832.0, co2PerHour: 21589.1, seats: 335, category: "wide" },
-    { model: "A380-800", fuelPerHour: 13493.4, co2PerHour: 42639.1, seats: 555, category: "jumbo" },
-    { model: "Boeing 747-8i", fuelPerHour: 11631.7, co2PerHour: 36758.2, seats: 468, category: "jumbo" },
+    { model: "A330", fuelPerHour: 6317.2, co2PerHour: 19962.4, seats: 300, category: "wide" },
+    { model: "A350", fuelPerHour: 5907.7, co2PerHour: 18668.3, seats: 315, category: "wide" },
+    { model: "Boeing 777", fuelPerHour: 8416.6, co2PerHour: 26596.5, seats: 378, category: "wide" },
+    { model: "Boeing 787", fuelPerHour: 5614.4, co2PerHour: 17741.5, seats: 290, category: "wide" },
+    { model: "A340", fuelPerHour: 6832.0, co2PerHour: 21589.1, seats: 335, category: "wide" },
+    { model: "A380", fuelPerHour: 13493.4, co2PerHour: 42639.1, seats: 555, category: "jumbo" },
+    { model: "Boeing 747", fuelPerHour: 11631.7, co2PerHour: 36758.2, seats: 468, category: "jumbo" },
   ];
 
   const csv = await fetchText("excel bestanden/verbruik.csv");
@@ -543,6 +543,18 @@ function calculate() {
   const arr = findAirport(arrivalInput.value);
   if (!dep || !arr) {
     alert("Selecteer geldige vertrek- en eindluchthaven.");
+    return;
+  }
+  
+  // Check if departure and arrival are the same
+  if (dep.code === arr.code) {
+    alert("De vertrekluchthaven en eindluchthaven mogen niet dezelfde zijn. Kies twee verschillende luchthavens.");
+    return;
+  }
+  
+  // Check if average aircraft is selected
+  if (isAverageAircraftChoice(aircraftInput.value)) {
+    alert("Kies een specifiek vliegtuigtype uit de lijst voor nauwkeurigere berekeningen. De gemiddelde toestellen geven geschatte waarden.");
     return;
   }
 
