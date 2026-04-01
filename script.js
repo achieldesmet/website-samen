@@ -512,8 +512,9 @@ function bindTypeAhead() {
 function bindOneTypeAhead(inputEl, boxEl) {
   const render = () => {
     const query = inputEl.value.trim().toLowerCase();
+    // Belangrijk: zoek altijd in de volledige lijst, anders "werken" sommige toegevoegde luchthavens niet.
     const source = query.length >= 2
-      ? topAirports.filter((a) => `${a.code} ${a.name} ${a.city}`.toLowerCase().includes(query))
+      ? airports.filter((a) => `${a.code} ${a.name} ${a.city}`.toLowerCase().includes(query))
       : topAirports;
     const shown = source.slice(0, 12);
     if (!shown.length) {
@@ -614,9 +615,10 @@ function renderAirlineList() {
 
 function findAirport(inputValue) {
   const value = (inputValue || "").toLowerCase().trim();
-  const exact = topAirports.find((a) => `${a.code} - ${a.name} (${a.city})`.toLowerCase() === value);
+  // Valideer ook op de volledige lijst.
+  const exact = airports.find((a) => `${a.code} - ${a.name} (${a.city})`.toLowerCase() === value);
   if (exact) return exact;
-  return topAirports.find((a) => `${a.code} ${a.name} ${a.city}`.toLowerCase().includes(value));
+  return airports.find((a) => `${a.code} ${a.name} ${a.city}`.toLowerCase().includes(value));
 }
 
 function findAircraft(inputValue) {
