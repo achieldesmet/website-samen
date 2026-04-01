@@ -510,9 +510,18 @@ select:focus {
 }
 
 .flip-card-back p {
-  margin: 8px 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  margin: 12px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.flip-card-back p:first-child {
+  margin-top: 0;
+}
+
+.flip-card-back p:last-child {
+  margin-bottom: 0;
 }
 
 .sources-section {
@@ -702,6 +711,40 @@ select:focus {
   font-size: 1.05rem;
 }
 
+.aerodynamics-section {
+  margin: 40px 0;
+  padding: 32px;
+  background: color-mix(in srgb, var(--green) 8%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--green) 30%, transparent);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.aerodynamics-section h3 {
+  margin: 0 0 24px;
+  color: var(--blue-strong);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.aero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.aero-text p {
+  margin: 16px 0;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.aero-visual {
+  margin: 0;
+}
+
 @media (max-width: 900px) {
   .intro-content {
     grid-template-columns: 1fr;
@@ -710,6 +753,11 @@ select:focus {
   
   .factors-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .aero-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 }
 
