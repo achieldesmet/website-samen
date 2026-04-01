@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyClear - Disclaimer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header-shell">
+      <div class="header-left">
+        <img
+          class="logo-small"
+          src="assets/skyclear-logo.png"
+          alt="SkyClear logo"
+          onerror="this.style.display='none'"
+        />
+        <h1>SkyClear</h1>
+      </div>
+      <nav class="top-tabs" aria-label="Tabbladen">
+        <a class="tab" href="index.html">CO2 Calculator</a>
+        <a class="tab" href="onderzoek.html">Onderzoek</a>
+        <a class="tab" href="recyclage.html">Recyclage</a>
+        <a class="tab active" href="disclaimer.html">Disclaimer</a>
+      </nav>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+    </header>
+
+    <main class="main-wrap">
+      <section class="card">
+        <div class="card-title">Disclaimer & Methodologie</div>
+        <p class="subtitle">Hoe SkyClear de CO2-uitstoot benadert en welke aannames gebruikt worden.</p>
+
+        <h2>Hoe de hoeveelheid uitgestoten CO2 wordt berekend</h2>
+        <p>
+          Als u uw begin- en eindluchthaven ingeeft, de luchtvaartmaatschappij waarmee u vliegt en het type toestel selecteert,
+          gebruikt onze website data over de gemiddelde vliegtijd om van uw startpunt naar eindbestemming te gaan.
+        </p>
+        <p>
+          Daarna gebruiken we geverifieerde data over het verbruik van het gekozen toestel. <strong>Opgelet:</strong> dit is een benadering.
+          Voor dit project hebben wij een beperkte set toestellen geselecteerd die de grote meerderheid aan vliegtuigen vertegenwoordigen.
+        </p>
+
+        <h2>Voorbeeld</h2>
+        <p>
+          Als u vliegt op een <strong>Boeing 777-200LR</strong>, zal onze website data bekijken van een <strong>Boeing 777-300ER</strong>.
+          Dit zorgt voor een (minimaal) verschil, maar de hoeveelheid CO2 komt in de praktijk overeen voor beide varianten.
+        </p>
+        <p>
+          Conclusie: alle varianten van de 777 worden samengevat in de (meest voorkomende) <strong>777-300ER</strong>.
+        </p>
+        <p>
+          <strong>Opmerking:</strong> er wordt wel een onderscheid gemaakt tussen de <strong>Boeing 737-800</strong> en <strong>Boeing 737 MAX 8</strong>,
+          omdat dit tweede toestel een verbeterde, gemoderniseerde versie is met een aanzienlijk lagere CO2-uitstoot.
+          Dit geldt ook voor de <strong>A320</strong> en <strong>A320neo</strong>.
+        </p>
+
+        <h2>Onzeker over het toestel? Gemiddelde per categorie</h2>
+        <p>Als een vliegtuigtype niet in de lijst staat, of als u onzeker bent over het exacte type toestel, kan u een gemiddelde waarde kiezen:</p>
+        <ul>
+          <li>
+            <strong>Short haul / narrowbody</strong>: korte vluchten, kleine vliegtuigen met één gangpad (bv. binnen Europa).
+            Gemiddelde op basis van: B737-800, B737 MAX 8, A320-200, A320neo.
+          </li>
+          <li>
+            <strong>Long haul / widebody</strong>: lange vluchten, grotere vliegtuigen met twee gangpaden (intercontinentaal).
+            Gemiddelde op basis van: B777-300ER, B787-9, A330-300, A340-300, A350-900.
+          </li>
+          <li>
+            <strong>Jumbojets</strong>: lange vluchten met extra grote toestellen (dubbeldekkers).
+            Gemiddelde op basis van: B747-8i en A380.
+          </li>
+        </ul>
+
+        <h2>CO2 per passagier</h2>
+        <p>
+          Om de uitstoot per passagier te berekenen, hebben we het aantal passagiers (stoelen) nodig per toestel.
+          Deze data werd op identieke wijze als het brandstofverbruik benaderd.
+        </p>
+
+        <h2>Invloed van vlootleeftijd</h2>
+        <p>
+          Zoals u kan lezen op de pagina “Onderzoek” nemen we een (kleine) impact van ouderdom mee in de berekening.
+          We kunnen niet exact weten hoe oud het specifieke toestel is waarmee u vliegt. Daarom gebruiken we een up-to-date lijst
+          (laatste update: april 2026) met de gemiddelde leeftijd van de vloot van de luchtvaartmaatschappij die u ingeeft.
+        </p>
+        <p>
+          Deze impact is miniem en maakt de ene maatschappij dus niet per se “beter” dan de andere door enkel een modernere vloot te hebben.
+          Als uw maatschappij niet in onze lijst staat, nemen we een wereldwijde gemiddelde vlootleeftijd.
+        </p>
+
+        <h2>Brandstof → CO2</h2>
+        <p>
+          De omrekening van massa verbruikte brandstof naar massa uitgestoten CO2 is, wegens de chemische reactie,
+          een vermenigvuldiging met <strong>3,16</strong>.
+        </p>
+
+        <h2>CO2 → bomen</h2>
+        <p>
+          Een boom capteert ongeveer <strong>25 kg CO2 per jaar</strong>. Daarmee berekenen we het aantal bomen dat nodig is
+          om de CO2-uitstoot van <strong>jouw vlucht</strong> (enkel voor jou als passagier) volledig op te vangen.
+        </p>
+
+        <h2>Over</h2>
+        <p>
+          Deze website werd gemaakt door 4 studenten aan de UGent, bezig met hun eerste bachelor in burgerlijk ingenieur.
+          Het maakt deel uit van een opdracht voor het vak Duurzaamheid, ondernemerschap en ethiek.
+        </p>
+
+        <h2>AI</h2>
+        <p>
+          Voor deze website werd gebruik gemaakt van Cursor. Ook in de research werd op een verantwoorde manier gebruik gemaakt van AI.
+          Alle resultaten werden nagekeken bij meerdere (betrouwbare en professionele) bronnen.
+        </p>
+
+        <h2>Privacy</h2>
+        <p>
+          De informatie die u ingeeft over vluchten wordt nergens opgeslagen of geanalyseerd door ons.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const btn = document.getElementById("themeToggle");
+      if (localStorage.getItem("skyclear-theme") === "dark") document.body.classList.add("dark");
+      btn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+        localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>
