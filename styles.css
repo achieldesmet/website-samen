@@ -389,6 +389,94 @@ select:focus {
   padding: 40px 16px;
 }
 
+.inline-figure {
+  margin: 14px 0 18px;
+}
+
+.content-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  box-shadow: 0 10px 24px rgba(33, 90, 126, 0.12);
+}
+
+.img-caption {
+  margin-top: 10px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 600;
+}
+
+.accordion-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.accordion-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--blue) 6%, var(--panel));
+  overflow: clip;
+}
+
+.accordion-card > summary {
+  cursor: pointer;
+  padding: 14px 14px;
+  list-style: none;
+  font-weight: 800;
+  color: var(--blue-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.accordion-card > summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-card > summary::after {
+  content: "▾";
+  color: color-mix(in srgb, var(--text) 70%, var(--muted));
+  transition: transform 0.2s ease;
+}
+
+.accordion-card[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  padding: 0 14px 14px;
+}
+
+.accordion-body p {
+  margin: 10px 0 0;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+
+.image-card {
+  margin: 0;
+  border-radius: 18px;
+  overflow: clip;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  background: color-mix(in srgb, var(--panel) 80%, #fff);
+}
+
+.image-card .content-img {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 @media (max-width: 900px) {
   .header-shell {
     flex-wrap: wrap;
@@ -400,5 +488,9 @@ select:focus {
 
   .kpi-grid {
     grid-template-columns: 1fr;
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

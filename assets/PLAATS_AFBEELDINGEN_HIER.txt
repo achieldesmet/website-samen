@@ -1,0 +1,15 @@
+Plaats (kopieer) de afbeeldingen naar deze paden zodat de pagina's correct laden:
+
+Veroudering (onderzoek.html):
+- assets/veroudering-eurocontrol.png
+- assets/veroudering-blended-wing-body.png
+
+Recyclage (recyclage.html):
+- assets/recyclage/recyclage-transport.png
+- assets/recyclage/recyclage-demontage.png
+- assets/recyclage/recyclage-boneyard.png
+- assets/recyclage/recyclage-recycling.png
+
+Tip: je kan de 6 afbeeldingen die je net in Cursor hebt geüpload hernoemen naar bovenstaande bestandsnamen
+en ze in de juiste mapjes plakken.
+
