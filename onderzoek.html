@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyClear - Veroudering</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header-shell">
+      <div class="header-left">
+        <img
+          class="logo-small"
+          src="images/logo.png"
+          alt="SkyClear logo"
+          onerror="this.style.display='none'"
+        />
+        <h1>SkyClear</h1>
+      </div>
+      <nav class="top-tabs" aria-label="Tabbladen">
+        <a class="tab" href="index.html">CO<sub>2</sub> Calculator</a>
+        <a class="tab active" href="onderzoek.html">Veroudering</a>
+        <a class="tab" href="recyclage.html">Recyclage</a>
+        <a class="tab" href="disclaimer.html">Disclaimer</a>
+      </nav>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </header>
+
+    <main class="main-wrap">
+      <section class="hero-veroudering">
+        <div class="hero-icon">✈️</div>
+        <h1>Veroudering</h1>
+        <p class="hero-subtitle">Hoe vliegtuigveroudering de CO<sub>2</sub>-uitstoot beïnvloedt en wat we kunnen doen</p>
+      </section>
+
+      <section class="intro-veroudering">
+        <div class="intro-content">
+          <div class="intro-text">
+            <h2>🌍 De impact van verouderde vliegtuigen</h2>
+            <p>
+              Verouderde vliegtuigen stoten meer CO<sub>2</sub> uit dan moderne. Door vlootvernieuwing op 15 jaar oude toestellen toe te passen, kan de luchtvaartsector een CO<sub>2</sub>-reductie van ongeveer
+              7 procent behalen.
+            </p>
+            <p>
+              De reductie van 7% lijkt op het eerste gezicht misschien klein. Echter niets is minder waar; de luchtvaartsector groeit pijlsnel, zo'n
+              vijf procent per jaar en is momenteel verantwoordelijk voor 2 tot 3 procent van de wereldwijde CO<sub>2</sub>-emissies.
+            </p>
+          </div>
+          <div class="intro-visual">
+            <figure class="featured-chart">
+              <img
+                class="content-img"
+                src="images/grafiek.png"
+                alt="EUROCONTROL-grafiek met potentiële CO2-besparingen per vlucht"
+                loading="lazy"
+              />
+              <figcaption class="img-caption">Bron: EUROCONTROL</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="factors-section">
+        <h2>🔍 Factoren die CO<sub>2</sub>-uitstoot beïnvloeden</h2>
+        <p>
+          Er zijn tal van factoren die een invloed hebben op de uitgestoten hoeveelheid koolstofdioxide door de vliegtuigindustrie: opstijgtijd,
+          ouderdom, gewicht, afstand en het type brandstof. Ook de bezettingsgraad en het type vliegtuig bepalen mee de uitstoot per persoon van
+          een bepaalde vlucht.
+        </p>
+        <div class="factors-grid">
+          <div class="factor-card">
+            <h3>⏱️ Vluchtduur</h3>
+            <p>Lange vluchten verbruiken meer brandstof, maar efficiënter per kilometer</p>
+          </div>
+          <div class="factor-card">
+            <h3>📅 Ouderdom</h3>
+            <p>Oudere toestellen hebben hogere brandstofconsumptie door slijtage</p>
+          </div>
+          <div class="factor-card">
+            <h3>⚖️ Gewicht</h3>
+            <p>Zwaardere vliegtuigen verbruiken meer brandstof voor dezelfde afstand</p>
+          </div>
+          <div class="factor-card">
+            <h3>🛢️ Brandstoftype</h3>
+            <p> moderne brandstoffen kunnen efficiënter zijn dan traditionele kerosine</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="aging-impact">
+        <h2>📊 De impact van vlootleeftijd</h2>
+        <p>
+          De ouderdom van een vloot heeft een doorslaggevende impact op de totale emissies. Dit komt voornamelijk door de volgende factoren:
+        </p>
+
+        <div class="accordion-grid" role="list">
+          <div class="flip-card flip-card-large" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flip-card-title">⚙️ Achteruitgang motorefficiëntie</div>
+                <p>Klik om te ontdekken hoe motorefficiëntie afneemt met veroudering...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  Verouderde motoren stoten meer CO<sub>2</sub> uit als gevolg van natuurlijke slijtage en degradatie. Het is essentieel om deze factor mee te
+                  wegen, omdat de totale emissies van een toestel anders systematisch worden onderschat.
+                </p>
+                <p>
+                  Hoewel motoren gedurende hun levensduur regelmatig worden onderhouden of gereviseerd, treedt er tussen de onderhoudsintervallen
+                  door onvermijdelijk rendementsverlies op. Hoewel upgrades naar modernere systemen mogelijk zijn, wordt dit niet op elk toestel
+                  toegepast, waardoor de technologische achterstand van oudere motoren de uitstoot onnodig hoog houdt.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flip-card-title">🚀 Technologische veranderingen</div>
+                <p>Klik om te zien hoe nieuwe generaties efficiënter zijn...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  In de factsheet van Parlement en Wetenschap wordt bevestigd dat elke nieuwe vliegtuiggeneratie gemiddeld 15-20 procent
+                  energiezuiniger is dan hun voorganger. Dit betekent dat de technologische achterstand van oudere toestellen direct leidt tot een
+                  aanzienlijk hogere uitstoot.
+                </p>
+                <p>
+                  Hoewel de transitie naar duurzamere alternatieven cruciaal is, blijft de grootschalige realisatie hiervan complex vanwege
+                  technische en economische barrières.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card flip-card-aero" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flip-card-title">✈️ Aerodynamica</div>
+                <p>Klik om de toekomst van vliegtuigontwerp te ontdekken...</p>
+              </div>
+              <div class="flip-card-back">
+                <div class="flip-card-content-with-image">
+                  <div class="flip-card-text">
+                    <p>
+                      Iedereen weet wel wat de vorm van een vliegtuig is: romp en vleugels. Maar is dit de meest brandstofefficiënte vorm? Er wordt
+                      nagedacht over een andere constructie in moderne vliegtuigen, de "Blended Wing Body". Dit
+                      model zou minder luchtweerstand ervaren en dus minder brandstof verbruiken.
+                    </p>
+                  </div>
+                  <div class="flip-card-image">
+                    <img
+                      class="content-img"
+                      src="images/veroudering-vliegtuig-2.png"
+                      alt="Voorbeeld van een Blended Wing Body vliegtuigconcept"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flip-card-title">⚖️ Gewichtstoename</div>
+                <p>Klik om te zien hoe gewicht toeneemt met de tijd...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  Vliegtuigen ondervinden een gewichtstoename. Zo zorgen reparaties, vervangstukken en extra verflagen voor een verhoging van het
+                  gewicht.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="sources-section">
+          <h3>📚 Bronnen</h3>
+          <div class="sources-grid">
+            <div class="source-item">
+              <p><strong>EUROCONTROL. (2021, April 2021).</strong> Think Paper #10 - Flying the 'perfect green flight. Opgeroepen op Maart 31, 2026, van <a href="https://www.eurocontrol.int/publication/eurocontrol-think-paper-10-flying-perfect-green-flight" target="_blank" rel="noopener">https://www.eurocontrol.int/publication/eurocontrol-think-paper-10-flying-perfect-green-flight</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Factors Affecting the Rate of Fuel Consumption in Aircrafts. (2021, Juli 2021).</strong> Opgeroepen op Maart 31, 2026, van <a href="https://www.mdpi.com/2071-1050/13/14/8066" target="_blank" rel="noopener">https://www.mdpi.com/2071-1050/13/14/8066</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Jarry, G., Dalmau, R., Very, P., & Sun, J. (2025, September 19).</strong> Aircraft Fuel Flow Modelling with Ageing Effects: From Parametric Corrections to Neural Networks. Opgeroepen op Maart 31, 2026, van <a href="https://arxiv.org/pdf/2509.15736v1" target="_blank" rel="noopener">https://arxiv.org/pdf/2509.15736v1</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Kurus, N., & Takahashi, T. (2021, Januari 4).</strong> Does Your Aircraft's Metabolism Slow with Time? An Analysis of Flight Performance Degradation Associated with Aging Aircraft. Opgeroepen op Maart 31, 2026, van <a href="https://arc.aiaa.org/doi/abs/10.2514/6.2021-0460" target="_blank" rel="noopener">https://arc.aiaa.org/doi/abs/10.2514/6.2021-0460</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Peeters, P., & Melkert, J. (2024, Maart 26).</strong> FACTSHEET TOEKOMST VERDUURZAMING LUCHTVAART (ACTUALISATIE 2024). Opgeroepen op Maart 31, 2026, van <a href="https://parlementenwetenschap.nl/wp-content/uploads/2024/04/240328_Factsheet_Toekomst_verduurzaming_luchtvaart_-update-2024.pdf" target="_blank" rel="noopener">https://parlementenwetenschap.nl/wp-content/uploads/2024/04/240328_Factsheet_Toekomst_verduurzaming_luchtvaart_-update-2024.pdf</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Smith, R. (2007, Juli 31).</strong> Of Blended Wing-Bodies and Flying Wings. Opgeroepen op Maart 31, 2026, van <a href="https://www.symscape.com/blog/blended-wing-bodies-flying-wings" target="_blank" rel="noopener">https://www.symscape.com/blog/blended-wing-bodies-flying-wings</a></p>
+            </div>
+            <div class="source-item">
+              <p><strong>Staples, M. (2018, Maart).</strong> Aviation CO2 emissions reductions from the use of alternative jet fuels. Opgeroepen op Maart 31, 2026, van <a href="https://www.sciencedirect.com/science/article/pii/S0301421517308224?casa_token=nzuGBRjTVSAAAAAA:f8f8ckABCly1jN77PwJ-nHMEi-QFkL_nufJ2Iv6A0f6KAJIfjt5hHL9lEjiABLBIJkSeUSbtog" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0301421517308224?casa_token=nzuGBRjTVSAAAAAA:f8f8ckABCly1jN77PwJ-nHMEi-QFkL_nufJ2Iv6A0f6KAJIfjt5hHL9lEjiABLBIJkSeUSbtog</a></p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const btn = document.getElementById("themeToggle");
+      const icon = btn.querySelector('.theme-icon');
+      
+      function updateThemeIcon() {
+        const isDark = document.body.classList.contains("dark");
+        icon.textContent = isDark ? "☀️" : "🌙";
+      }
+      
+      if (localStorage.getItem("skyclear-theme") === "dark") document.body.classList.add("dark");
+      updateThemeIcon();
+      
+      btn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+        localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
+        updateThemeIcon();
+      });
+    </script>
+  </body>
+</html>

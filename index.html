@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyClear - CO2 Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header-shell">
+      <div class="header-left">
+        <img class="logo-small" src="images/logo.png" alt="SkyClear logo" />
+        <h1>SkyClear</h1>
+      </div>
+
+      <nav class="top-tabs" aria-label="Tabbladen">
+        <a class="tab active" href="index.html">CO2 Calculator</a>
+        <a class="tab" href="onderzoek.html">Veroudering</a>
+        <a class="tab" href="recyclage.html">Recyclage</a>
+        <a class="tab" href="disclaimer.html">Disclaimer</a>
+      </nav>
+
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </header>
+
+    <main class="main-wrap">
+      <section class="hero-strip">
+        <div class="hero-icon">✈️</div>
+        <h2>CO<sub>2</sub> Calculator</h2>
+        <p>Heldere lucht start bij eerlijke data.</p>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Vluchtgegevens</div>
+
+        <form id="co2-form" autocomplete="off">
+          <div class="form-grid">
+            <div>
+              <label for="departureInput">Vertrekbestemming</label>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="departureInput" placeholder="Typ luchthaven of IATA-code..." required />
+                  <div id="departureSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('departureInput')" title="Wis selectie">×</button>
+              </div>
+            </div>
+            <div>
+              <label for="arrivalInput">Eindbestemming</label>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="arrivalInput" placeholder="Typ luchthaven of IATA-code..." required />
+                  <div id="arrivalSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('arrivalInput')" title="Wis selectie">×</button>
+              </div>
+            </div>
+            <div>
+              <label for="aircraftInput">Type toestel</label>
+              <div class="input-with-clear">
+                <select id="aircraftInput" required></select>
+                <button type="button" class="clear-btn" onclick="clearSelect('aircraftInput')" title="Wis selectie">×</button>
+              </div>
+            </div>
+            <div>
+              <label for="airlineInput">Luchtvaartmaatschappij</label>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="airlineInput" placeholder="Zoek maatschappij..." required />
+                  <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('airlineInput')" title="Wis selectie">×</button>
+              </div>
+            </div>
+          </div>
+
+          <datalist id="airlineList"></datalist>
+
+          <div class="actions">
+            <button class="btn primary" type="submit">Bereken uitstoot</button>
+            <button class="btn subtle" type="reset">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="resultPanel" class="card result-card" hidden>
+        <div id="averageWarning" class="warning-banner" style="display: none;">
+          <div class="warning-content">
+            <span class="warning-icon">⚠️</span>
+            <div class="warning-message">
+              <strong>Let op:</strong> De CO₂-uitstoot voor gemiddelde categorieën is een benadering. Voor nauwkeurigere resultaten selecteer een specifiek vliegtuigtype.
+            </div>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi-card">
+            <h4>Totale CO<sub>2</sub>-uitstoot</h4>
+            <div class="kpi-value"><span id="co2TotalAircraftOut">--</span> kg</div>
+            <p>Hele vliegtuig</p>
+          </article>
+          <article class="kpi-card">
+            <h4>CO<sub>2</sub> per passagier</h4>
+            <div class="kpi-value"><span id="co2Out">--</span> kg</div>
+            <p>Verdeeld over <span id="seatsOut">--</span> passagiers</p>
+          </article>
+          <article class="kpi-card kpi-green">
+            <h4>Bomen ter compensatie</h4>
+            <div class="kpi-value"><span id="treeIcon">🌳</span> <span id="treesOut">--</span></div>
+            <p><span id="treeCompareOut">--</span></p>
+          </article>
+        </div>
+
+        <div class="result-grid">
+          <div class="chart-wrap">
+            <h3>Jaarlijks CO<sub>2</sub>-budget per persoon</h3>
+            <canvas id="yearlyChart" aria-label="Jaarlijkse CO2-verbruik chart"></canvas>
+            <p class="chart-caption"><span id="yearlyShareOut">--</span> van je jaarlijks CO<sub>2</sub>-budget gebruikt</p>
+          </div>
+
+          <div class="result-spotlight">
+            <h3>Vluchtinformatie</h3>
+                        <p class="mini-note"><strong>Route:</strong> <span id="routeOut">--</span></p>
+            <p class="mini-note"><strong>Maatschappij:</strong> <span id="airlineOut">--</span></p>
+            <p class="mini-note"><strong>Vliegtuigtype:</strong> <span id="aircraftOut">--</span></p>
+            <p class="mini-note"><strong>Afstand:</strong> <span id="distanceOut">--</span> km</p>
+            <p class="mini-note"><strong>Vluchtduur (geschat):</strong> <span id="durationOut">--</span> uur</p>
+            <p class="mini-note mini-formula">Formule: afstand / 850 km/u + 0.6 uur taxi/take-off/landing</p>
+            <p class="mini-note"><strong>Gem. vlootleeftijd:</strong> <span id="fleetAgeOut">--</span> jaar (<span id="ageFactorOut">--</span>)</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
