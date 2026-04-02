@@ -3,32 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkyClear - CO2 Calculator</title>
+    <title>SkyClear - CO<sub>2</sub> Calculator</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="header-shell">
       <div class="header-left">
-        <img class="logo-small" src="assets/skyclear-logo.png" alt="SkyClear logo" />
+        <img class="logo-small" src="images/logo.png" alt="SkyClear logo" />
         <h1>SkyClear</h1>
       </div>
 
       <nav class="top-tabs" aria-label="Tabbladen">
-        <a class="tab active" href="index.html">CO2 Calculator</a>
-        <a class="tab" href="onderzoek.html">Onderzoek</a>
+        <a class="tab active" href="index.html">CO<sub>2</sub> Calculator</a>
+        <a class="tab" href="onderzoek.html">Veroudering</a>
         <a class="tab" href="recyclage.html">Recyclage</a>
         <a class="tab" href="disclaimer.html">Disclaimer</a>
       </nav>
 
       <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
-        🌙
+        <span class="theme-icon">🌙</span>
       </button>
     </header>
 
     <main class="main-wrap">
       <section class="hero-strip">
         <div class="hero-icon">✈️</div>
-        <h2>CO2 Calculator</h2>
+        <h2>CO<sub>2</sub> Calculator</h2>
         <p>Heldere lucht start bij eerlijke data.</p>
       </section>
 
@@ -41,6 +41,7 @@
               <label for="departureInput">Vertrekbestemming</label>
               <div class="typeahead-wrap">
                 <input id="departureInput" placeholder="Typ luchthaven of IATA-code..." required />
+                <button type="button" class="clear-btn" data-target="departureInput" aria-label="Clear departure">✕</button>
                 <div id="departureSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
@@ -48,6 +49,7 @@
               <label for="arrivalInput">Eindbestemming</label>
               <div class="typeahead-wrap">
                 <input id="arrivalInput" placeholder="Typ luchthaven of IATA-code..." required />
+                <button type="button" class="clear-btn" data-target="arrivalInput" aria-label="Clear arrival">✕</button>
                 <div id="arrivalSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
@@ -58,7 +60,8 @@
             <div>
               <label for="airlineInput">Luchtvaartmaatschappij</label>
               <div class="typeahead-wrap">
-                <input id="airlineInput" list="airlineList" placeholder="Zoek maatschappij..." required />
+                <input id="airlineInput" placeholder="Zoek maatschappij..." required />
+                <button type="button" class="clear-btn" data-target="airlineInput" aria-label="Clear airline">✕</button>
                 <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
               </div>
             </div>
@@ -76,12 +79,12 @@
       <section id="resultPanel" class="card result-card" hidden>
         <div class="kpi-grid">
           <article class="kpi-card">
-            <h4>Totale CO2-uitstoot</h4>
+            <h4>Totale CO<sub>2</sub>-uitstoot</h4>
             <div class="kpi-value"><span id="co2TotalAircraftOut">--</span> kg</div>
             <p>Hele vliegtuig</p>
           </article>
           <article class="kpi-card">
-            <h4>CO2 per passagier</h4>
+            <h4>CO<sub>2</sub> per passagier</h4>
             <div class="kpi-value"><span id="co2Out">--</span> kg</div>
             <p>Verdeeld over <span id="seatsOut">--</span> passagiers</p>
           </article>
@@ -94,17 +97,16 @@
 
         <div class="result-grid">
           <div class="chart-wrap">
-            <h3>Jaarlijks CO2-budget per persoon</h3>
-            <canvas id="yearlyChart" aria-label="Jaarlijkse CO2-verbruik chart"></canvas>
-            <p class="chart-caption"><span id="yearlyShareOut">--</span> van je jaarlijks CO2-budget gebruikt</p>
+            <h3>Jaarlijks CO<sub>2</sub>-budget per persoon</h3>
+            <canvas id="yearlyChart" aria-label="Jaarlijkse CO<sub>2</sub>-verbruik chart"></canvas>
           </div>
 
           <div class="result-spotlight">
             <h3>Vluchtinformatie</h3>
-            <p class="mini-note"><strong>Duurzaamheid:</strong> <span id="sustainabilityBadge">--</span></p>
-            <p class="mini-note"><strong>Route:</strong> <span id="routeOut">--</span></p>
+                        <p class="mini-note"><strong>Route:</strong> <span id="routeOut">--</span></p>
             <p class="mini-note"><strong>Maatschappij:</strong> <span id="airlineOut">--</span></p>
             <p class="mini-note"><strong>Vliegtuigtype:</strong> <span id="aircraftOut">--</span></p>
+            <p id="averageNotice" class="mini-note average-notice" style="display: none; color: var(--orange); font-style: italic;">⚠️ Berekening met gemiddelde waarden - kies een specifiek toestel voor nauwkeurigere resultaten</p>
             <p class="mini-note"><strong>Afstand:</strong> <span id="distanceOut">--</span> km</p>
             <p class="mini-note"><strong>Vluchtduur (geschat):</strong> <span id="durationOut">--</span> uur</p>
             <p class="mini-note mini-formula">Formule: afstand / 850 km/u + 0.6 uur taxi/take-off/landing</p>
@@ -115,8 +117,32 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="script.js"></script>
+    <script>
+      // Theme toggle functionality - ensure it works after script.js loads
+      const btn = document.getElementById("themeToggle");
+      const icon = btn.querySelector('.theme-icon');
+      
+      function updateThemeIcon() {
+        const isDark = document.body.classList.contains("dark");
+        icon.textContent = isDark ? "☀️" : "🌙";
+      }
+      
+      // Initialize theme
+      if (localStorage.getItem("skyclear-theme") === "dark") document.body.classList.add("dark");
+      updateThemeIcon();
+      
+      // Theme toggle event listener
+      if (btn) {
+        btn.addEventListener("click", () => {
+          document.body.classList.toggle("dark");
+          localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
+          updateThemeIcon();
+        });
+      }
+    </script>
   </body>
 </html>
