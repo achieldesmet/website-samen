@@ -13,18 +13,147 @@
 body.dark {
   --bg: #0f1b26;
   --panel: #182836;
-  --text: #ffffff;
-  --muted: #a8b2d1;
-  --line: #3a4a5c;
-  --blue: #4a9eff;
+  --text: #ecf5fb;
+  --muted: #9eb5c6;
+  --line: #2c4558;
+  --blue: #2f88b2;
   --blue-strong: #57a9d1;
   --green: #8dda60;
   --shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
 }
 
+body.dark .hero-strip {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--blue) 20%, var(--panel)) 0%, var(--panel) 100%);
+}
+
+body.dark .hero-veroudering {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--blue) 20%, var(--panel)) 0%, var(--panel) 100%);
+}
+
+body.dark .hero-recyclage {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--green) 20%, var(--panel)) 0%, var(--panel) 100%);
+}
+
+body.dark .hero-disclaimer {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--blue) 20%, var(--panel)) 0%, var(--panel) 100%);
+}
+
+body.dark .result-spotlight {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--blue) 18%, var(--panel)) 0%, color-mix(in srgb, var(--green) 16%, var(--panel)) 100%);
+}
+
+body.dark .featured-chart img,
+body.dark .featured-image img,
+body.dark .side-image img {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
 body.dark .logo-small {
   background: color-mix(in srgb, var(--panel) 88%, #0b1420);
   border-color: color-mix(in srgb, var(--line) 90%, transparent);
+}
+
+/* Waarschuwingsbalk styling */
+.warning-banner {
+  background: linear-gradient(135deg, #fff3cd 0%, #fef5e7 100%);
+  border: 2px solid #ffc107;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+.warning-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.warning-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.warning-message {
+  flex: 1;
+  line-height: 1.5;
+  color: #856404;
+  font-size: 0.95rem;
+}
+
+.warning-message strong {
+  color: #664d03;
+  font-weight: 700;
+}
+
+/* Dark mode styling */
+body.dark .warning-banner {
+  background: linear-gradient(135deg, #3d3418 0%, #4a3f20 100%);
+  border-color: #c9a227;
+  box-shadow: 0 4px 12px rgba(201, 162, 39, 0.2);
+}
+
+body.dark .warning-message {
+  color: #f5e6b3;
+}
+
+body.dark .warning-message strong {
+  color: #ffe08a;
+}
+
+/* Animatie */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.input-with-clear {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.clear-btn {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 44px;
+  height: 44px;
+  border-radius: 0 14px 14px 0;
+  cursor: pointer;
+  margin-left: -1px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.clear-btn:hover {
+  background: color-mix(in srgb, var(--blue) 12%, var(--panel));
+  border-color: var(--blue);
+}
+
+.input-with-clear .typeahead-wrap input,
+.input-with-clear select {
+  border-radius: 14px 0 0 14px;
+  border-right: none;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.input-with-clear .typeahead-wrap {
+  flex: 1;
 }
 
 * {
@@ -164,7 +293,6 @@ body {
   font-size: 1.9rem;
   font-weight: 700;
   margin-bottom: 8px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
@@ -461,9 +589,13 @@ select:focus {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: color-mix(in srgb, var(--blue) 6%, var(--panel));
-  height: 200px;
+  height: 280px;
   perspective: 1000px;
   cursor: pointer;
+}
+
+.flip-card-large {
+  height: 320px;
 }
 
 .flip-card-inner {
@@ -506,24 +638,98 @@ select:focus {
 .flip-card-title {
   font-weight: 800;
   color: var(--blue-strong);
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
 }
 
 .flip-card-back p {
-  margin: 12px 0;
-  font-size: 1rem;
+  margin: 6px 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.flip-card-content-with-image {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.flip-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.flip-card-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.flip-card-image {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.flip-card-image img {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  display: block;
+}
+
+/* Specifieke styling voor Aerodynamica kaart */
+.flip-card-aero .flip-card-back {
+  justify-content: flex-start;
+  padding-top: 15px;
+}
+
+.flip-card-aero .flip-card-content-with-image {
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 15px 20px;
+}
+
+.flip-card-aero .flip-card-image {
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-card-aero .flip-card-image img {
+  max-width: 170px;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(33, 90, 126, 0.15);
+}
+
+.flip-card-aero .flip-card-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.flip-card-aero .flip-card-text p {
+  font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.flip-card-back p:first-child {
-  margin-top: 0;
-}
-
-.flip-card-back p:last-child {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .sources-section {
@@ -713,40 +919,6 @@ select:focus {
   font-size: 1.05rem;
 }
 
-.aerodynamics-section {
-  margin: 40px 0;
-  padding: 32px;
-  background: color-mix(in srgb, var(--green) 8%, var(--panel));
-  border: 1px solid color-mix(in srgb, var(--green) 30%, transparent);
-  border-radius: 22px;
-  box-shadow: var(--shadow);
-}
-
-.aerodynamics-section h3 {
-  margin: 0 0 24px;
-  color: var(--blue-strong);
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.aero-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.aero-text p {
-  margin: 16px 0;
-  line-height: 1.7;
-  font-size: 1.05rem;
-}
-
-.aero-visual {
-  margin: 0;
-}
-
 @media (max-width: 900px) {
   .intro-content {
     grid-template-columns: 1fr;
@@ -755,11 +927,6 @@ select:focus {
   
   .factors-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-  
-  .aero-content {
-    grid-template-columns: 1fr;
-    gap: 24px;
   }
 }
 
@@ -1079,11 +1246,16 @@ select:focus {
 }
 
 .info-box {
-  background: #EFF6FF;
+  background: color-mix(in srgb, var(--blue) 15%, var(--panel));
   border: 1px solid color-mix(in srgb, var(--blue) 30%, transparent);
   border-radius: 18px;
   padding: 24px;
   margin: 20px 0;
+}
+
+body.dark .info-box {
+  background: color-mix(in srgb, var(--blue) 25%, var(--panel));
+  border-color: color-mix(in srgb, var(--blue) 40%, transparent);
 }
 
 .info-box h3 {
@@ -1210,10 +1382,6 @@ select:focus {
   color: var(--blue-strong);
   font-size: 1.1rem;
   font-weight: 700;
-}
-
-body.dark .about-card h3 {
-  color: #4a9eff;
 }
 
 .disclaimer-footer {

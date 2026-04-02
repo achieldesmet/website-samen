@@ -3,7 +3,7 @@ let topAirports = [];
 let aircrafts = [];
 let airlines = [];
 
-const BASELINE_ANNUAL_KG = 1500;
+const BASELINE_ANNUAL_KG = 2100;
 const EMBEDDED_TOP_AIRPORTS = [
   { code: "ATL", name: "Hartsfield-Jackson Atlanta Intl", city: "Atlanta", lat: 33.6407, lon: -84.4277 },
   { code: "LAX", name: "Los Angeles Intl", city: "Los Angeles", lat: 33.9416, lon: -118.4085 },
@@ -426,6 +426,9 @@ let yearlyChart = null;
 init();
 
 async function init() {
+  restoreTheme();
+  if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
+
   airports = await loadAirports();
   topAirports = pickTopAirports(airports, 120);
   aircrafts = await loadAircrafts();
@@ -460,18 +463,17 @@ async function loadAirports() {
 
 async function loadAircrafts() {
   const defaults = [
-    { model: "A320neo", fuelPerHour: 2448.7, co2PerHour: 7737.9, seats: 150, category: "small" },
-    { model: "A321neo", fuelPerHour: 2650.0, co2PerHour: 8374.0, seats: 180, category: "small" },
-    { model: "Boeing 737NG", fuelPerHour: 2539.6, co2PerHour: 8025.1, seats: 160, category: "small" },
-    { model: "Boeing 737 MAX 8", fuelPerHour: 2482.2, co2PerHour: 7843.8, seats: 178, category: "small" },
-    { model: "A320-200", fuelPerHour: 2664.4, co2PerHour: 8429.5, seats: 150, category: "small" },
-    { model: "A330", fuelPerHour: 6317.2, co2PerHour: 19962.4, seats: 300, category: "wide" },
-    { model: "A350", fuelPerHour: 5907.7, co2PerHour: 18668.3, seats: 315, category: "wide" },
-    { model: "Boeing 777", fuelPerHour: 8416.6, co2PerHour: 26596.5, seats: 378, category: "wide" },
-    { model: "Boeing 787", fuelPerHour: 5614.4, co2PerHour: 17741.5, seats: 290, category: "wide" },
-    { model: "A340", fuelPerHour: 6832.0, co2PerHour: 21589.1, seats: 335, category: "wide" },
-    { model: "A380", fuelPerHour: 13493.4, co2PerHour: 42639.1, seats: 555, category: "jumbo" },
-    { model: "Boeing 747", fuelPerHour: 11631.7, co2PerHour: 36758.2, seats: 468, category: "jumbo" },
+    { model: "Boeing 737NG", fuelPerHour: 2539.6, seats: 160, category: "small" },
+    { model: "Boeing 737 MAX 8", fuelPerHour: 2482.2, seats: 178, category: "small" },
+    { model: "Airbus A320neo", fuelPerHour: 2448.7, seats: 150, category: "small" },
+    { model: "Airbus A320-200", fuelPerHour: 2664.4, seats: 150, category: "small" },
+    { model: "Boeing 777-300ER", fuelPerHour: 8416.6, seats: 378, category: "wide" },
+    { model: "Boeing 787-9", fuelPerHour: 5614.4, seats: 290, category: "wide" },
+    { model: "Airbus A330", fuelPerHour: 6317.2, seats: 300, category: "wide" },
+    { model: "Airbus A340-300", fuelPerHour: 6832.0, seats: 335, category: "wide" },
+    { model: "Airbus A350-900", fuelPerHour: 5907.7, seats: 315, category: "wide" },
+    { model: "Boeing 747-8", fuelPerHour: 11631.7, seats: 468, category: "jumbo" },
+    { model: "Airbus A380-800", fuelPerHour: 13493.4, seats: 555, category: "jumbo" },
   ];
 
   const csv = await fetchText("excel bestanden/verbruik.csv");
@@ -545,33 +547,42 @@ function calculate() {
     alert("Selecteer geldige vertrek- en eindluchthaven.");
     return;
   }
-  
-  // Check if departure and arrival are the same
+
+  // Controleer of vertrek en aankomst dezelfde luchthaven zijn
   if (dep.code === arr.code) {
-    alert("De vertrekluchthaven en eindluchthaven mogen niet dezelfde zijn. Kies twee verschillende luchthavens.");
-    return;
-  }
-  
-  // Check if average aircraft is selected
-  if (isAverageAircraftChoice(aircraftInput.value)) {
-    alert("Kies een specifiek vliegtuigtype uit de lijst voor nauwkeurigere berekeningen. De gemiddelde toestellen geven geschatte waarden.");
+    alert("Vertrek- en eindluchthaven mogen niet dezelfde zijn.");
     return;
   }
 
   const aircraft = findAircraft(aircraftInput.value);
   const category = inferCategoryFromModel(aircraftInput.value);
   const isAverageChoice = isAverageAircraftChoice(aircraftInput.value);
-  const co2PerHour = aircraft && !isAverageChoice ? aircraft.co2PerHour : averageByCategory(category);
-  const seats = aircraft && aircraft.seats && !isAverageChoice ? aircraft.seats : averageSeatsByCategory(category);
+  
+  // Gebruik alleen gemiddelde waarden als het echt een gemiddelde keuze is
+  let fuelPerHour, seats;
+  if (isAverageChoice) {
+    fuelPerHour = averageFuelByCategory(category);
+    seats = averageSeatsByCategory(category);
+  } else if (aircraft) {
+    fuelPerHour = aircraft.fuelPerHour;
+    seats = aircraft.seats || averageSeatsByCategory(category);
+  } else {
+    // Onbekend vliegtuig - geen waarschuwing, geen gemiddelde waarden
+    fuelPerHour = 5000; // fallback waarde
+    seats = averageSeatsByCategory(category);
+  }
   const airline = findAirline(airlineInput.value);
   const age = airline ? airline.fleetAge : 0;
   const ageFactor = 1 + age * 0.0025;
 
   const km = haversineKm(dep.lat, dep.lon, arr.lat, arr.lon);
-  const flightHours = km / 850 + 0.6;
-  const totalAircraftCo2 = flightHours * co2PerHour * ageFactor;
+  const flightHours = km / 850 + 0.6; // 850 km/u + 0.6 uur taxi/takeoff/landing
+  
+  // CO2 berekening: fuel per uur * uren * 3.16 (CO2 factor)
+  const totalAircraftCo2 = fuelPerHour * flightHours * 3.16 * ageFactor;
   const perSeatCo2 = totalAircraftCo2 / seats;
-  // Disclaimer: 1 boom capteert ongeveer 25 kg CO2 per jaar.
+  
+  // Disclaimer: 1 boom capteert ongeveer 25 kg CO<sub>2</sub> per jaar.
   const averageTrees = Math.ceil(perSeatCo2 / 25);
   const yearlyShare = (perSeatCo2 / BASELINE_ANNUAL_KG) * 100;
 
@@ -586,8 +597,28 @@ function calculate() {
   yearlyShareOut.textContent = `${yearlyShare.toFixed(1)}%`;
   routeOut.textContent = `${dep.city} (${dep.code}) -> ${arr.city} (${arr.code})`;
   airlineOut.textContent = airline ? airline.name : airlineInput.value || "Onbekend";
-  aircraftOut.textContent = aircraft ? aircraft.model : `Gemiddelde ${category}`;
+  aircraftOut.textContent = aircraft ? aircraft.model : (isAverageChoice ? `Gemiddelde ${category}` : aircraftInput.value || "Onbekend");
+
+
   durationOut.textContent = flightHours.toFixed(1);
+
+  // Waarschuwingsbalk logica - alleen bij exacte gemiddelde keuzes
+  const warningBanner = document.getElementById('averageWarning');
+  if (warningBanner) {
+    const averageChoices = [
+      'gemiddelde narrowbody',
+      'gemiddelde widebody', 
+      'gemiddelde jumbojet'
+    ];
+    
+    const isAverageChoice = averageChoices.includes(aircraftInput.value.toLowerCase().trim());
+    
+    if (isAverageChoice) {
+      warningBanner.style.display = 'block';
+    } else {
+      warningBanner.style.display = 'none';
+    }
+  }
 
   renderChart(yearlyShare);
   resultPanel.hidden = false;
@@ -610,7 +641,7 @@ function renderAircraftList() {
     '<optgroup label="Jumbojet (zeer grote capaciteit)">',
     ...byCategory.jumbo.map((a) => `<option value="${a.model}">${a.model} (${Math.round(a.seats || 420)} passagiers)</option>`),
     "</optgroup>",
-    '<optgroup label="Gemiddelde per categorie (geschat)">',
+    '<optgroup label="Gemiddelde per categorie - CO\u2082 uitstoot is een benadering">',
     '<option value="Gemiddelde Narrowbody">Gemiddelde Narrowbody</option>',
     '<option value="Gemiddelde Widebody">Gemiddelde Widebody</option>',
     '<option value="Gemiddelde Jumbojet">Gemiddelde Jumbojet</option>',
@@ -632,7 +663,7 @@ function findAirport(inputValue) {
 
 function findAircraft(inputValue) {
   const value = (inputValue || "").toLowerCase().trim();
-  return aircrafts.find((a) => a.model.toLowerCase() === value) || aircrafts.find((a) => a.model.toLowerCase().includes(value));
+  return aircrafts.find((a) => a.model.toLowerCase() === value);
 }
 
 function findAirline(inputValue) {
@@ -640,13 +671,13 @@ function findAirline(inputValue) {
   return airlines.find((a) => a.name.toLowerCase() === value) || airlines.find((a) => a.name.toLowerCase().includes(value));
 }
 
-function averageByCategory(category) {
+function averageFuelByCategory(category) {
   const inClass = aircrafts.filter((a) => (a.category || inferCategoryFromModel(a.model)) === category);
   if (!inClass.length) {
-    const allAvg = aircrafts.reduce((sum, a) => sum + a.co2PerHour, 0) / aircrafts.length;
+    const allAvg = aircrafts.reduce((sum, a) => sum + (a.fuelPerHour || 5000), 0) / aircrafts.length;
     return Number.isFinite(allAvg) ? allAvg : 5000;
   }
-  return inClass.reduce((sum, a) => sum + a.co2PerHour, 0) / inClass.length;
+  return inClass.reduce((sum, a) => sum + (a.fuelPerHour || 5000), 0) / inClass.length;
 }
 
 function averageSeatsByCategory(category) {
@@ -669,9 +700,20 @@ function inferCategoryFromModel(modelName) {
 }
 
 function isAverageAircraftChoice(value) {
-  return (value || "").toLowerCase().includes("gemiddelde");
+  const exactAverageChoices = [
+    "gemiddelde narrowbody",
+    "gemiddelde widebody", 
+    "gemiddelde jumbojet"
+  ];
+  return exactAverageChoices.includes((value || "").toLowerCase().trim());
 }
 
+function sustainabilityLabel(perSeatKg) {
+  if (perSeatKg < 200) return "🟢 Zeer duurzaam";
+  if (perSeatKg < 500) return "🟡 Gemiddelde impact";
+  if (perSeatKg < 900) return "🟠 Hoge impact";
+  return "🔴 Zeer hoge impact";
+}
 
 function bindAirlineTypeAhead() {
   if (!airlineInput || !airlineSuggestions) return;
@@ -719,8 +761,39 @@ function renderChart(sharePercent) {
     options: {
       responsive: true,
       cutout: "72%",
-      plugins: { legend: { position: "bottom" } },
+      plugins: { 
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ": " + context.parsed.toFixed(1) + "%";
+            }
+          }
+        }
+      }
     },
+    plugins: [{
+      id: 'centerText',
+      beforeDraw: function(chart) {
+        const ctx = chart.ctx;
+        const width = chart.width;
+        const height = chart.height;
+        
+        ctx.restore();
+        const fontSize = Math.min(height / 6, 32);
+        ctx.font = `bold ${fontSize}px "Segoe UI", sans-serif`;
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.fillStyle = isDark ? '#ecf5fb' : '#1f2b3d';
+        
+        const text = used.toFixed(1) + "%";
+        const textX = width / 2;
+        const textY = height / 2;
+        
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }]
   });
 }
 
@@ -813,13 +886,12 @@ function parseAircraftCsv(csv) {
   return parseCsv(csv)
     .map((r) => {
       const model = String(r.model || r.vliegtuig || r.aircraft || r.aircraft_type || "").trim();
-      const co2PerKm = Number(r.co2_per_km || r.co2 || r.kg_co2_per_km || r.verbruik || 0);
+      const fuelPerHour = Number(r.fuel_per_hour || r.fuel_per_hr || r.fuel_hour || r.verbruik_per_uur || 0);
       const seats = Number(r.seats || r.aantal_stoelen || r.stoelen || 0);
-      const co2PerSeatKm = Number(r.co2_per_seat_km || r.co2_stoel || r.co2_per_stoel || 0);
       const category = normalizeCategory(String(r.category || r.categorie || "")) || inferCategoryFromModel(model);
-      return { model, co2PerKm, seats, co2PerSeatKm, category };
+      return { model, fuelPerHour, seats, category };
     })
-    .filter((a) => a.model && Number.isFinite(a.co2PerKm));
+    .filter((a) => a.model && Number.isFinite(a.fuelPerHour));
 }
 
 function parseAircraftText(text) {
@@ -831,9 +903,8 @@ function parseAircraftText(text) {
     const model = match[1].trim();
     out.push({
       model,
-      co2PerKm: Number(match[2].replace(",", ".")),
+      fuelPerHour: Number(match[2].replace(",", ".")),
       seats: extractSeatsFromTextLine(line),
-      co2PerSeatKm: extractPerSeatFromTextLine(line),
       category: inferCategoryFromModel(model),
     });
   }
@@ -882,11 +953,6 @@ function extractSeatsFromTextLine(line) {
   return match ? Number(match[1]) : 0;
 }
 
-function extractPerSeatFromTextLine(line) {
-  const match = line.match(/(?:co2\s*per\s*seat|co2\s*per\s*stoel)\s*[:=]?\s*([0-9]+(?:[.,][0-9]+)?)/i);
-  return match ? Number(match[1].replace(",", ".")) : 0;
-}
-
 async function fetchText(path) {
   try {
     const response = await fetch(path);
@@ -919,4 +985,47 @@ function haversineKm(lat1, lon1, lat2, lon2) {
 
 function toRad(value) {
   return (value * Math.PI) / 180;
+}
+
+function restoreTheme() {
+  const saved = localStorage.getItem("skyclear-theme");
+  if (saved === "dark") document.body.classList.add("dark");
+  updateThemeIcon();
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
+  updateThemeIcon();
+}
+
+function clearInput(inputId) {
+  const input = document.getElementById(inputId);
+  if (input) {
+    input.value = '';
+    // Verberg suggestions
+    const suggestionsId = inputId.replace('Input', 'Suggestions');
+    const suggestions = document.getElementById(suggestionsId);
+    if (suggestions) {
+      suggestions.classList.remove('visible');
+    }
+    // Focus terug naar input
+    input.focus();
+  }
+}
+
+function clearSelect(selectId) {
+  const select = document.getElementById(selectId);
+  if (select) {
+    select.selectedIndex = 0;
+  }
+}
+
+function updateThemeIcon() {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+  const icon = btn.querySelector('.theme-icon');
+  if (!icon) return;
+  const isDark = document.body.classList.contains("dark");
+  icon.textContent = isDark ? "☀️" : "🌙";
 }

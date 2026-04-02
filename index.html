@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkyClear - CO<sub>2</sub> Calculator</title>
+    <title>SkyClear - CO2 Calculator</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -14,7 +14,7 @@
       </div>
 
       <nav class="top-tabs" aria-label="Tabbladen">
-        <a class="tab active" href="index.html">CO<sub>2</sub> Calculator</a>
+        <a class="tab active" href="index.html">CO2 Calculator</a>
         <a class="tab" href="onderzoek.html">Veroudering</a>
         <a class="tab" href="recyclage.html">Recyclage</a>
         <a class="tab" href="disclaimer.html">Disclaimer</a>
@@ -39,30 +39,39 @@
           <div class="form-grid">
             <div>
               <label for="departureInput">Vertrekbestemming</label>
-              <div class="typeahead-wrap">
-                <input id="departureInput" placeholder="Typ luchthaven of IATA-code..." required />
-                <button type="button" class="clear-btn" data-target="departureInput" aria-label="Clear departure">✕</button>
-                <div id="departureSuggestions" class="suggestions" role="listbox"></div>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="departureInput" placeholder="Typ luchthaven of IATA-code..." required />
+                  <div id="departureSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('departureInput')" title="Wis selectie">×</button>
               </div>
             </div>
             <div>
               <label for="arrivalInput">Eindbestemming</label>
-              <div class="typeahead-wrap">
-                <input id="arrivalInput" placeholder="Typ luchthaven of IATA-code..." required />
-                <button type="button" class="clear-btn" data-target="arrivalInput" aria-label="Clear arrival">✕</button>
-                <div id="arrivalSuggestions" class="suggestions" role="listbox"></div>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="arrivalInput" placeholder="Typ luchthaven of IATA-code..." required />
+                  <div id="arrivalSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('arrivalInput')" title="Wis selectie">×</button>
               </div>
             </div>
             <div>
               <label for="aircraftInput">Type toestel</label>
-              <select id="aircraftInput" required></select>
+              <div class="input-with-clear">
+                <select id="aircraftInput" required></select>
+                <button type="button" class="clear-btn" onclick="clearSelect('aircraftInput')" title="Wis selectie">×</button>
+              </div>
             </div>
             <div>
               <label for="airlineInput">Luchtvaartmaatschappij</label>
-              <div class="typeahead-wrap">
-                <input id="airlineInput" placeholder="Zoek maatschappij..." required />
-                <button type="button" class="clear-btn" data-target="airlineInput" aria-label="Clear airline">✕</button>
-                <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
+              <div class="input-with-clear">
+                <div class="typeahead-wrap">
+                  <input id="airlineInput" placeholder="Zoek maatschappij..." required />
+                  <div id="airlineSuggestions" class="suggestions" role="listbox"></div>
+                </div>
+                <button type="button" class="clear-btn" onclick="clearInput('airlineInput')" title="Wis selectie">×</button>
               </div>
             </div>
           </div>
@@ -77,6 +86,14 @@
       </section>
 
       <section id="resultPanel" class="card result-card" hidden>
+        <div id="averageWarning" class="warning-banner" style="display: none;">
+          <div class="warning-content">
+            <span class="warning-icon">⚠️</span>
+            <div class="warning-message">
+              <strong>Let op:</strong> De CO₂-uitstoot voor gemiddelde categorieën is een benadering. Voor nauwkeurigere resultaten selecteer een specifiek vliegtuigtype.
+            </div>
+          </div>
+        </div>
         <div class="kpi-grid">
           <article class="kpi-card">
             <h4>Totale CO<sub>2</sub>-uitstoot</h4>
@@ -98,7 +115,8 @@
         <div class="result-grid">
           <div class="chart-wrap">
             <h3>Jaarlijks CO<sub>2</sub>-budget per persoon</h3>
-            <canvas id="yearlyChart" aria-label="Jaarlijkse CO<sub>2</sub>-verbruik chart"></canvas>
+            <canvas id="yearlyChart" aria-label="Jaarlijkse CO2-verbruik chart"></canvas>
+            <p class="chart-caption"><span id="yearlyShareOut">--</span> van je jaarlijks CO<sub>2</sub>-budget gebruikt</p>
           </div>
 
           <div class="result-spotlight">
@@ -106,7 +124,6 @@
                         <p class="mini-note"><strong>Route:</strong> <span id="routeOut">--</span></p>
             <p class="mini-note"><strong>Maatschappij:</strong> <span id="airlineOut">--</span></p>
             <p class="mini-note"><strong>Vliegtuigtype:</strong> <span id="aircraftOut">--</span></p>
-            <p id="averageNotice" class="mini-note average-notice" style="display: none; color: var(--orange); font-style: italic;">⚠️ Berekening met gemiddelde waarden - kies een specifiek toestel voor nauwkeurigere resultaten</p>
             <p class="mini-note"><strong>Afstand:</strong> <span id="distanceOut">--</span> km</p>
             <p class="mini-note"><strong>Vluchtduur (geschat):</strong> <span id="durationOut">--</span> uur</p>
             <p class="mini-note mini-formula">Formule: afstand / 850 km/u + 0.6 uur taxi/take-off/landing</p>
@@ -117,32 +134,8 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="script.js"></script>
-    <script>
-      // Theme toggle functionality - ensure it works after script.js loads
-      const btn = document.getElementById("themeToggle");
-      const icon = btn.querySelector('.theme-icon');
-      
-      function updateThemeIcon() {
-        const isDark = document.body.classList.contains("dark");
-        icon.textContent = isDark ? "☀️" : "🌙";
-      }
-      
-      // Initialize theme
-      if (localStorage.getItem("skyclear-theme") === "dark") document.body.classList.add("dark");
-      updateThemeIcon();
-      
-      // Theme toggle event listener
-      if (btn) {
-        btn.addEventListener("click", () => {
-          document.body.classList.toggle("dark");
-          localStorage.setItem("skyclear-theme", document.body.classList.contains("dark") ? "dark" : "light");
-          updateThemeIcon();
-        });
-      }
-    </script>
   </body>
 </html>
